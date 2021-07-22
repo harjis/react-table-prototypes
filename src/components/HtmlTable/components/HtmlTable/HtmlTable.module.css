@@ -4,6 +4,10 @@
   user-select: none;
 }
 
+.FullWidth {
+  width: 100%;
+}
+
 .Cell {
   margin: 0;
   padding: 0.5rem;

@@ -1,4 +1,5 @@
 {
+  "homepage": "https://harjis.github.io/react-hooks",
   "name": "react-table-prototypes",
   "version": "0.1.0",
   "private": true,
@@ -10,6 +11,8 @@
     "@types/node": "^12.20.16",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
+    "classnames": "^2.3.1",
+    "gh-pages": "^3.2.3",
     "prettier": "^2.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -24,7 +27,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "predeploy": "npm run build-storybook",
+    "deploy": "gh-pages -d storybook-static"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +66,7 @@
     "@storybook/node-logger": "^6.3.4",
     "@storybook/preset-create-react-app": "^3.2.0",
     "@storybook/react": "^6.3.4",
+    "@types/classnames": "^2.3.1",
     "@types/react-table": "^7.7.2"
   }
 }
