@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 
-import { useResizeObserver } from './useResizeObserver';
-import {useDocumentEventListener} from "./useDocumentEventListener";
+import { useInitialDimensions } from "./useInitialDimensions";
+import { useDocumentEventListener } from "./useDocumentEventListener";
 
 export type Offset = {
   x: number;
@@ -13,16 +13,20 @@ type Dimensions = {
 };
 type Return<ElementType> = {
   ref: React.Ref<ElementType>;
-  dimensions: Dimensions;
+  dimensions: Dimensions | null;
   startResize: (event: React.MouseEvent) => void;
 };
-export const useResizable = <ElementType extends Element>(): Return<ElementType> => {
-  // TODO usage of ResizeObserver is not the most optimal one. We would like to measure the element
-  // dimensions once after mount. Currently the dimensions are measured constantly on resize
-  // which is not needed.
-  const [ref, initialDimensions] = useResizeObserver<ElementType>();
+export const useResizable = <
+  ElementType extends Element
+>(): Return<ElementType> => {
+  const {
+    ref,
+    dimensions: initialDimensions,
+  } = useInitialDimensions<ElementType>();
   const [offset, setOffset] = useState<Offset | null>(null);
-  const [dimensions, setDimensions] = useState<Dimensions>(initialDimensions);
+  const [dimensions, setDimensions] = useState<Dimensions | null>(
+    initialDimensions
+  );
 
   useEffect(() => {
     setDimensions(initialDimensions);
@@ -46,17 +50,20 @@ export const useResizable = <ElementType extends Element>(): Return<ElementType>
       const yDiff = offset.y - event.pageY;
       setOffset({ x: event.pageX, y: event.pageY });
       setDimensions((prevDimensions) => {
+        if (prevDimensions === null) {
+          return null;
+        }
         return {
           width: prevDimensions.width - xDiff,
           height: prevDimensions.height - yDiff,
         };
       });
     },
-    [offset],
+    [offset]
   );
 
-  useDocumentEventListener('mousemove', resize);
-  useDocumentEventListener('mouseup', stopResize);
+  useDocumentEventListener("mousemove", resize);
+  useDocumentEventListener("mouseup", stopResize);
 
   return {
     ref,

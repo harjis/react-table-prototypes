@@ -14,7 +14,7 @@ export const ColumnHeader = <Data extends Record<string, unknown>>(
   const { column } = props;
   const { dimensions, ref, startResize } = useResizable<HTMLTableHeaderCellElement>();
   const headerStyles: { width?: number } = {};
-  if (dimensions.width > 0) {
+  if (dimensions && dimensions.width > 0) {
     headerStyles.width = dimensions.width;
   }
   return (
