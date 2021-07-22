@@ -1,0 +1,33 @@
+.HtmlTable_Container__d8Di1 {
+  border-spacing: 0;
+  border: 1px solid black;
+  -webkit-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.HtmlTable_FullWidth__3yXog {
+  width: 100%;
+}
+
+.HtmlTable_Cell__1rHlf {
+  margin: 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.HtmlTable_Cell__1rHlf:last-child {
+  border-right: 0;
+}
+
+.HtmlTable_Resizer__1uyQu {
+  display: inline-block;
+  background: blue;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+}
+
+
+/*# sourceMappingURL=main.cd34ef22.chunk.css.map*/
