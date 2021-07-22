@@ -1,4 +1,5 @@
-import { Ref, useEffect, useRef, useState } from 'react';
+import { Ref, useEffect, useRef, useState } from "react";
+import { pixelToInteger } from "../utils/pixelToInteger";
 
 type Dimensions = {
   height: number;
@@ -8,7 +9,9 @@ type Return<ElementType> = {
   dimensions: Dimensions | null;
   ref: Ref<ElementType>;
 };
-export const useInitialDimensions = <ElementType extends Element>(): Return<ElementType> => {
+export const useInitialDimensions = <
+  ElementType extends Element
+>(): Return<ElementType> => {
   const ref = useRef<ElementType>(null);
   const [dimensions, setDimensions] = useState<Dimensions | null>(null);
 
@@ -16,7 +19,34 @@ export const useInitialDimensions = <ElementType extends Element>(): Return<Elem
     const { current } = ref;
     if (current instanceof Element) {
       const { width, height } = current.getBoundingClientRect();
-      setDimensions({ height, width });
+      const paddingTop = pixelToInteger(
+        window.getComputedStyle(current).paddingTop
+      );
+      const paddingBottom = pixelToInteger(
+        window.getComputedStyle(current).paddingBottom
+      );
+      const paddingLeft = pixelToInteger(
+        window.getComputedStyle(current).paddingLeft
+      );
+      const paddingRight = pixelToInteger(
+        window.getComputedStyle(current).paddingRight
+      );
+      const borderTop = pixelToInteger(
+        window.getComputedStyle(current).borderTopWidth
+      );
+      const borderBottom = pixelToInteger(
+        window.getComputedStyle(current).borderBottomWidth
+      );
+      const borderLeft = pixelToInteger(
+        window.getComputedStyle(current).borderLeftWidth
+      );
+      const borderRight = pixelToInteger(
+        window.getComputedStyle(current).borderRightWidth
+      );
+      setDimensions({
+        height: height - paddingTop - paddingBottom - borderTop - borderBottom,
+        width: width - paddingLeft - paddingRight - borderLeft - borderRight,
+      });
     }
   }, []);
 
