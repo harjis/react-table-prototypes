@@ -1,7 +1,7 @@
-import { CellProps } from "react-table";
+import { Props } from "./Cell";
+import { BaseRow } from "../../types";
 
-export const TextCell = <Row extends Record<string, unknown>, Value>(
-  props: CellProps<Row, Value>
-) => {
-  return <>{props.value}</>;
+export const TextCell = <Row extends BaseRow>(props: Props<Row>) => {
+  // TODO Check if string
+  return <div>{String(props.cellStore.value)}</div>;
 };

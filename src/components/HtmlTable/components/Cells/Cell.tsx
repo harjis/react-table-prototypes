@@ -1,34 +1,35 @@
-import { CellProps } from "react-table";
-import { ColumnType, CustomColumn } from "../../types";
+import React from "react";
+import { observer } from "mobx-react-lite";
+import cn from "classnames";
+
+import css from "./Cell.module.css";
+import { BaseRow, ColumnType } from "../../types";
 import { CheckboxCell } from "./CheckboxCell";
 import { TextCell } from "./TextCell";
+import { CellStore } from "../../stores/CellStore";
 
-export const Cell = <Row extends Record<string, unknown>, Value>(
-  props: CellProps<Row, Value>
-) => {
-  return getComponent(
-    props,
-    getCellsColumnType(props.originalColumns, props.column.id)
-  );
+export type Props<Row extends BaseRow> = {
+  cellStore: CellStore<Row>;
 };
-function getCellsColumnType<Row extends Record<string, unknown>>(
-  originalColumns: CustomColumn<Row>[],
-  columnKey: string
-): ColumnType {
-  const column = originalColumns.find((c) => c.key === columnKey);
-  if (!column) {
-    throw new Error(
-      `Column with id: ${columnKey} was not found in ${originalColumns
-        .map((c) => c.key)
-        .join(", ")}`
-    );
-  }
+export const Cell = observer(<Row extends BaseRow>(props: Props<Row>) => {
+  const { cellStore } = props;
+  return (
+    <td
+      role="cell"
+      key={String(cellStore.columnId)}
+      className={cn(css.Cell, {
+        [css.SelectedCell]: cellStore.isSelected,
+        [css.StickyRowHeader]: cellStore.columnIndex === 0,
+      })}
+      onClick={() => cellStore.toggleSelection()}
+    >
+      {getComponent(props, props.cellStore.type)}
+    </td>
+  );
+});
 
-  return column.type;
-}
-
-function getComponent<Row extends Record<string, unknown>, Value>(
-  props: CellProps<Row, Value>,
+function getComponent<Row extends BaseRow>(
+  props: Props<Row>,
   type: ColumnType
 ): JSX.Element {
   switch (type) {
