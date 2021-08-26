@@ -1,31 +1,32 @@
 import React from "react";
 import { HeaderGroup } from "react-table";
+import cn from "classnames";
 
 import css from "../HtmlTable/HtmlTable.module.css";
-
 import { useResizable } from "../../hooks/useResizable";
 
-type Props<Data extends Record<string, unknown>> = {
-  column: HeaderGroup<Data>;
+type Props<Row extends Record<string, unknown>> = {
+  column: HeaderGroup<Row>;
+  columnIndex: number;
 };
-export const ColumnHeader = <Data extends Record<string, unknown>>(
-  props: Props<Data>
+export const ColumnHeader = <Row extends Record<string, unknown>>(
+  props: Props<Row>
 ): JSX.Element => {
   const { column } = props;
-  const {
-    dimensions,
-    ref,
-    startResize,
-  } = useResizable<HTMLTableHeaderCellElement>();
+  const { dimensions, ref, startResize } =
+    useResizable<HTMLTableHeaderCellElement>();
   const headerStyles: { width?: number } = {};
   if (dimensions && dimensions.width > 0) {
     headerStyles.width = dimensions.width;
   }
+
   return (
     <th
       {...column.getHeaderProps()}
       ref={ref}
-      className={css.Cell}
+      className={cn(css.Cell, {
+        [css.StickyRowHeader]: props.columnIndex === 0,
+      })}
       style={{ ...headerStyles }}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>

@@ -2,10 +2,7 @@
   border-spacing: 0;
   border: 1px solid black;
   user-select: none;
-}
-
-.FullWidth {
-  width: 100%;
+  overflow: auto;
 }
 
 .Cell {
@@ -18,10 +15,22 @@
   border-right: 0;
 }
 
+/* Lets just hack this for now so that sticky rowheaders show selection too*/
+.SelectedCell {
+  background-color: lightgrey !important;
+}
+
 .Resizer {
   display: inline-block;
   background: blue;
   width: 5px;
   height: 100%;
   cursor: col-resize;
+}
+
+.StickyRowHeader {
+  background-color: white;
+  position: sticky;
+  left: 0;
+  z-index: 1;
 }

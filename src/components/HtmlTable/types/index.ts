@@ -1,9 +1,13 @@
-export type ColumnType = 'text' | 'input' | 'select';
-// Need to use extends object because of react-table types
-// More this like of types in types/react-table-config.d.ts
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type CustomColumn<Data extends object> = {
-  key: keyof Data;
+export type ColumnType = "text" | "checkbox";
+
+export type CustomColumn<Row extends Record<string, unknown>> = {
+  key: keyof Row;
   title: string;
   type: ColumnType;
 };
+
+export type OnCellChange<Row extends Record<string, unknown>> = (
+  row: Row,
+  key: keyof Row,
+  newValue: unknown
+) => void;
