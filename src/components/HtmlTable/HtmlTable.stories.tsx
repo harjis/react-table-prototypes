@@ -24,7 +24,7 @@ const Template: Story<TableProps<DummyData>> = (args) => {
 export const FitToContentWidth = Template.bind({});
 FitToContentWidth.args = {
   columns: defaultColumns,
-  rows: getDummyData(500),
+  rows: getDummyData(1000),
 };
 
 export const FullWidth = Template.bind({});
