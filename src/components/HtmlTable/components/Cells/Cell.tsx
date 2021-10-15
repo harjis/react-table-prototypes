@@ -2,14 +2,37 @@ import { CellProps } from "react-table";
 import { ColumnType, CustomColumn } from "../../types";
 import { CheckboxCell } from "./CheckboxCell";
 import { TextCell } from "./TextCell";
+import cn from "classnames";
+import css from "../HtmlTable/HtmlTable.module.css";
+import { useSelectedCellContext } from "../../context/selectedCellContext";
 
 export const Cell = <Row extends Record<string, unknown>, Value>(
   props: CellProps<Row, Value>
 ) => {
-  return getComponent(
-    props,
-    getCellsColumnType(props.originalColumns, props.column.id)
+  // @ts-ignore
+  const { cell, columnIndex, rowIndex } = props;
+  const { selectedCell, selectCell } = useSelectedCellContext();
+  const isCellSelected =
+    selectedCell &&
+    selectedCell.rowIndex === rowIndex &&
+    selectedCell.columnIndex === columnIndex;
+  return (
+    <td
+      {...cell.getCellProps()}
+      key={cell.getCellProps().key}
+      className={cn(css.Cell, {
+        [css.SelectedCell]: isCellSelected,
+        [css.StickyRowHeader]: columnIndex === 0,
+      })}
+      onClick={() => selectCell(rowIndex, columnIndex)}
+    >
+      {getComponent(
+        props,
+        getCellsColumnType(props.originalColumns, props.column.id)
+      )}
+    </td>
   );
+  return;
 };
 function getCellsColumnType<Row extends Record<string, unknown>>(
   originalColumns: CustomColumn<Row>[],
