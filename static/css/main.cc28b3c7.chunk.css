@@ -1,0 +1,65 @@
+.HtmlTable_Container__d8Di1 {
+  border-spacing: 0;
+  border: 1px solid black;
+  -webkit-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  overflow: auto;
+}
+
+.ColumnHeaders_stickyColumnHeaders__2Sc1o {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: white;
+}
+.ColumnHeader_Cell__1h4-d {
+    padding: 0.5rem;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.ColumnHeader_Cell__1h4-d:last-child {
+    border-right: 0;
+}
+
+/* Feels a bit unintuitive place for this */
+.ColumnHeader_StickyRowHeader__1aC7K {
+    background-color: white;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.ColumnHeader_Resizer__1yn2G {
+    display: inline-block;
+    background: blue;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+}
+
+.Cell_Cell__3ZgLl {
+    padding: 0.5rem;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.Cell_Cell__3ZgLl:last-child {
+    border-right: 0;
+}
+
+/* Lets just hack this for now so that sticky rowheaders show selection too*/
+.Cell_SelectedCell__13ZBv {
+    background-color: lightgrey !important;
+}
+
+/* Feels a bit unintuitive place for this */
+.Cell_StickyRowHeader__3g--_ {
+    background-color: white;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+/*# sourceMappingURL=main.cc28b3c7.chunk.css.map*/
