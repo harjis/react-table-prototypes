@@ -4,10 +4,7 @@
   -webkit-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
-
-.HtmlTable_FullWidth__3yXog {
-  width: 100%;
+  overflow: auto;
 }
 
 .HtmlTable_Cell__1rHlf {
@@ -20,6 +17,11 @@
   border-right: 0;
 }
 
+/* Lets just hack this for now so that sticky rowheaders show selection too*/
+.HtmlTable_SelectedCell__1a0vf {
+  background-color: lightgrey !important;
+}
+
 .HtmlTable_Resizer__1uyQu {
   display: inline-block;
   background: blue;
@@ -28,5 +30,17 @@
   cursor: col-resize;
 }
 
+.HtmlTable_StickyRowHeader__PbNvm {
+  background-color: white;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.ColumnHeaders_stickyColumnHeaders__2Sc1o {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: white;
+}
 
-/*# sourceMappingURL=main.e96cfbf4.chunk.css.map*/
+/*# sourceMappingURL=main.5024e704.chunk.css.map*/
