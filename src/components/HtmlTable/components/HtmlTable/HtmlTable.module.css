@@ -4,33 +4,3 @@
   user-select: none;
   overflow: auto;
 }
-
-.Cell {
-  padding: 0.5rem;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-}
-
-.Cell:last-child {
-  border-right: 0;
-}
-
-/* Lets just hack this for now so that sticky rowheaders show selection too*/
-.SelectedCell {
-  background-color: lightgrey !important;
-}
-
-.Resizer {
-  display: inline-block;
-  background: blue;
-  width: 5px;
-  height: 100%;
-  cursor: col-resize;
-}
-
-.StickyRowHeader {
-  background-color: white;
-  position: sticky;
-  left: 0;
-  z-index: 1;
-}

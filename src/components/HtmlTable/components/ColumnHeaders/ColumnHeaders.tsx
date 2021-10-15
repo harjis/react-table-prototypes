@@ -1,35 +1,28 @@
 import React from "react";
-import { TableInstance } from "react-table";
 
 import s from "./ColumnHeaders.module.css";
 import { ColumnHeader } from "./ColumnHeader";
+import { BaseRow, CustomColumn } from "../../types";
 
-type Props<Row extends Record<string, unknown>> = {
-  tableInstance: TableInstance<Row>;
+type Props<Row extends BaseRow> = {
+  columns: CustomColumn<Row>[];
 };
-export const ColumnHeaders = <Row extends Record<string, unknown>>(
+export const ColumnHeaders = <Row extends BaseRow>(
   props: Props<Row>
 ): JSX.Element => {
-  const { tableInstance } = props;
-
   return (
     <thead className={s.stickyColumnHeaders}>
-      {tableInstance.headerGroups.map((headerGroup) => (
-        <tr
-          {...headerGroup.getHeaderGroupProps()}
-          key={headerGroup.getHeaderGroupProps().key}
-        >
-          {headerGroup.headers.map((column, columnIndex) => {
-            return (
-              <ColumnHeader
-                key={column.getHeaderProps().key}
-                column={column}
-                columnIndex={columnIndex}
-              />
-            );
-          })}
-        </tr>
-      ))}
+      <tr role="row">
+        {props.columns.map((column, columnIndex) => {
+          return (
+            <ColumnHeader
+              key={String(column.key)}
+              column={column}
+              columnIndex={columnIndex}
+            />
+          );
+        })}
+      </tr>
     </thead>
   );
 };

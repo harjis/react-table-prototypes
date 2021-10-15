@@ -1,19 +1,18 @@
-import { CellProps } from "react-table";
+import { observer } from "mobx-react-lite";
 
-export const CheckboxCell = <Row extends Record<string, unknown>, Value>(
-  props: CellProps<Row, Value>
-) => {
-  return (
-    <input
-      type="checkbox"
-      checked={Boolean(props.value)}
-      onChange={(event) => {
-        props.onCellChange(
-          props.row.original,
-          props.column.id,
-          event.currentTarget.checked
-        );
-      }}
-    />
-  );
-};
+import { Props } from "./Cell";
+import { BaseRow } from "../../types";
+
+export const CheckboxCell = observer(
+  <Row extends BaseRow>(props: Props<Row>) => {
+    return (
+      <input
+        type="checkbox"
+        checked={Boolean(props.cellStore.value)}
+        onChange={(event) => {
+          props.cellStore.updateValue(event.currentTarget.checked);
+        }}
+      />
+    );
+  }
+);

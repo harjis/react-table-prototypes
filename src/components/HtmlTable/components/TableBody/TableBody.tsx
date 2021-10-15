@@ -1,46 +1,27 @@
 import React from "react";
-import { TableInstance } from "react-table";
-import cn from "classnames";
+import { observer } from "mobx-react-lite";
 
-import css from "../HtmlTable/HtmlTable.module.css";
-import { useSelectedCellContext } from "../../context/selectedCellContext";
+import { BaseRow } from "../../types";
+import { TableStore } from "../../stores/TableStore";
+import { Cell } from "../Cells/Cell";
 
-type Props<Row extends Record<string, unknown>> = {
-  tableInstance: TableInstance<Row>;
+type Props<Row extends BaseRow> = {
+  tableStore: TableStore<Row>;
 };
-export const TableBody = <Row extends Record<string, unknown>>(
-  props: Props<Row>
-): JSX.Element => {
-  const { tableInstance } = props;
-  const { selectedCell, selectCell } = useSelectedCellContext();
-  return (
-    <tbody {...tableInstance.getTableBodyProps()}>
-      {tableInstance.rows.map((row, rowIndex) => {
-        tableInstance.prepareRow(row);
-        return (
-          <tr {...row.getRowProps()} key={row.getRowProps().key}>
-            {row.cells.map((cell, columnIndex) => {
-              const isCellSelected =
-                selectedCell &&
-                selectedCell.rowIndex === rowIndex &&
-                selectedCell.columnIndex === columnIndex;
-              return (
-                <td
-                  {...cell.getCellProps()}
-                  key={cell.getCellProps().key}
-                  className={cn(css.Cell, {
-                    [css.SelectedCell]: isCellSelected,
-                    [css.StickyRowHeader]: columnIndex === 0,
-                  })}
-                  onClick={() => selectCell(rowIndex, columnIndex)}
-                >
-                  {cell.render("Cell")}
-                </td>
-              );
-            })}
-          </tr>
-        );
-      })}
-    </tbody>
-  );
-};
+export const TableBody = observer(
+  <Row extends BaseRow>(props: Props<Row>): JSX.Element => {
+    return (
+      <tbody role="rolegroup">
+        {props.tableStore.rows.map((rowStore) => {
+          return (
+            <tr role="row" key={rowStore.rowId}>
+              {rowStore.cells.map((cellStore) => {
+                return <Cell cellStore={cellStore} />;
+              })}
+            </tr>
+          );
+        })}
+      </tbody>
+    );
+  }
+);

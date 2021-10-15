@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { Meta, Story } from "@storybook/react";
 
 import { Props as TableProps, HtmlTable } from "./index";
@@ -11,32 +11,26 @@ export default {
 } as Meta;
 
 const Template: Story<TableProps<DummyData>> = (args) => {
-  const [data, setData] = useState(args.data);
   const onCellChange: OnCellChange<DummyData> = useCallback(
     (changedRow, changedKey, newValue) => {
-      setData((prevData) =>
-        prevData.map((row) =>
-          row.id === changedRow.id ? { ...row, [changedKey]: newValue } : row
-        )
-      );
+      console.log("onCellChange", changedRow, changedKey, newValue);
     },
     []
   );
-  // const store = new TableStore({ data: args.data });
 
-  return <HtmlTable {...args} data={data} onCellChange={onCellChange} />;
+  return <HtmlTable {...args} rows={args.rows} onCellChange={onCellChange} />;
 };
 
 export const FitToContentWidth = Template.bind({});
 FitToContentWidth.args = {
   columns: defaultColumns,
-  data: getDummyData(50),
+  rows: getDummyData(1000),
 };
 
 export const FullWidth = Template.bind({});
 FullWidth.args = {
   columns: defaultColumns,
-  data: getDummyData(50),
+  rows: getDummyData(50),
   width: "100%",
 };
 
@@ -51,5 +45,5 @@ const OverflowTemplate: Story<TableProps<DummyData>> = (args) => {
 export const Overflow = OverflowTemplate.bind({});
 Overflow.args = {
   columns: defaultColumns,
-  data: getDummyData(50),
+  rows: getDummyData(50),
 };

@@ -1,0 +1,25 @@
+.Cell {
+    padding: 0.5rem;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.Cell:last-child {
+    border-right: 0;
+}
+
+/* Feels a bit unintuitive place for this */
+.StickyRowHeader {
+    background-color: white;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.Resizer {
+    display: inline-block;
+    background: blue;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+}

@@ -1,15 +1,15 @@
 import React from "react";
-import { HeaderGroup } from "react-table";
 import cn from "classnames";
 
-import css from "../HtmlTable/HtmlTable.module.css";
+import css from "./ColumnHeader.module.css";
 import { useResizable } from "../../hooks/useResizable";
+import { BaseRow, CustomColumn } from "../../types";
 
-type Props<Row extends Record<string, unknown>> = {
-  column: HeaderGroup<Row>;
+type Props<Row extends BaseRow> = {
+  column: CustomColumn<Row>;
   columnIndex: number;
 };
-export const ColumnHeader = <Row extends Record<string, unknown>>(
+export const ColumnHeader = <Row extends BaseRow>(
   props: Props<Row>
 ): JSX.Element => {
   const { column } = props;
@@ -22,7 +22,8 @@ export const ColumnHeader = <Row extends Record<string, unknown>>(
 
   return (
     <th
-      {...column.getHeaderProps()}
+      colSpan={1}
+      role="columnheader"
       ref={ref}
       className={cn(css.Cell, {
         [css.StickyRowHeader]: props.columnIndex === 0,
@@ -30,7 +31,7 @@ export const ColumnHeader = <Row extends Record<string, unknown>>(
       style={{ ...headerStyles }}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        {column.render("Header")}
+        {column.title}
         <div onMouseDown={startResize} className={css.Resizer}>
           &nbsp;
         </div>

@@ -1,12 +1,13 @@
 export type ColumnType = "text" | "checkbox";
 
-export type CustomColumn<Row extends Record<string, unknown>> = {
+export type BaseRow = { id: string };
+export type CustomColumn<Row extends BaseRow> = {
   key: keyof Row;
   title: string;
   type: ColumnType;
 };
 
-export type OnCellChange<Row extends Record<string, unknown>> = (
+export type OnCellChange<Row extends BaseRow> = (
   row: Row,
   key: keyof Row,
   newValue: unknown
