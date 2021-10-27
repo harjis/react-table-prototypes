@@ -5,11 +5,13 @@ import { BaseRow } from "../../types";
 import { TableStore } from "../../stores/TableStore";
 import { Cell } from "../Cells/Cell";
 
-type Props<Row extends BaseRow> = {
-  tableStore: TableStore<Row>;
+type Props<Row extends BaseRow, ColumnId extends keyof Row> = {
+  tableStore: TableStore<Row, ColumnId>;
 };
 export const TableBody = observer(
-  <Row extends BaseRow>(props: Props<Row>): JSX.Element => {
+  <Row extends BaseRow, ColumnId extends keyof Row>(
+    props: Props<Row, ColumnId>
+  ): JSX.Element => {
     return (
       <tbody role="rolegroup">
         {props.tableStore.rows.map((rowStore) => {

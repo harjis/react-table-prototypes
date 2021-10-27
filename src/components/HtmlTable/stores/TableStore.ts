@@ -11,8 +11,8 @@ type Props<Row extends BaseRow> = {
   columns: CustomColumn<Row>[];
   rows: Row[];
 };
-export class TableStore<Row extends BaseRow> {
-  rows: RowStore<Row>[] = [];
+export class TableStore<Row extends BaseRow, ColumnId extends keyof Row> {
+  rows: RowStore<Row, ColumnId>[] = [];
   maxRowIndex: number;
   maxColumnIndex: number;
 
@@ -25,11 +25,11 @@ export class TableStore<Row extends BaseRow> {
     this.rows = this.createRows(props.rows, props.columns);
   }
 
-  findCell(rowId: string, columnId: keyof Row): CellStore<Row> {
+  findCell(rowId: string, columnId: keyof Row): CellStore<Row, ColumnId> {
     return this.findRow(rowId).findCell(columnId);
   }
 
-  findSelectedCell(): CellStore<Row> | undefined {
+  findSelectedCell(): CellStore<Row, ColumnId> | undefined {
     let selectedCell = undefined;
     this.rows.forEach((row) => {
       row.cells.forEach((cell) => {
@@ -42,7 +42,7 @@ export class TableStore<Row extends BaseRow> {
     return selectedCell;
   }
 
-  findRow(rowId: string): RowStore<Row> {
+  findRow(rowId: string): RowStore<Row, ColumnId> {
     const row = this.rows.find((row) => row.rowId === rowId);
     if (!row) {
       throw new Error(`Row with rowId: ${rowId} was not found`);
@@ -120,7 +120,7 @@ export class TableStore<Row extends BaseRow> {
   private createRows(
     rows: Row[],
     columns: CustomColumn<Row>[]
-  ): RowStore<Row>[] {
+  ): RowStore<Row, ColumnId>[] {
     const columnTypeByName = this.columnTypeByName(columns);
     return rows.map(
       (row, rowIndex) => new RowStore({ columnTypeByName, row, rowIndex }, this)

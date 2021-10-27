@@ -8,28 +8,32 @@ import { CheckboxCell } from "./CheckboxCell";
 import { TextCell } from "./TextCell";
 import { CellStore } from "../../stores/CellStore";
 
-export type Props<Row extends BaseRow> = {
-  cellStore: CellStore<Row>;
+export type Props<Row extends BaseRow, ColumnId extends keyof Row> = {
+  cellStore: CellStore<Row, ColumnId>;
 };
-export const Cell = observer(<Row extends BaseRow>(props: Props<Row>) => {
-  const { cellStore } = props;
-  return (
-    <td
-      role="cell"
-      key={String(cellStore.columnId)}
-      className={cn(css.Cell, {
-        [css.SelectedCell]: cellStore.isSelected,
-        [css.StickyRowHeader]: cellStore.columnIndex === 0,
-      })}
-      onClick={() => cellStore.toggleSelection()}
-    >
-      {getComponent(props, props.cellStore.type)}
-    </td>
-  );
-});
+export const Cell = observer(
+  <Row extends BaseRow, ColumnId extends keyof Row>(
+    props: Props<Row, ColumnId>
+  ) => {
+    const { cellStore } = props;
+    return (
+      <td
+        role="cell"
+        key={String(cellStore.columnId)}
+        className={cn(css.Cell, {
+          [css.SelectedCell]: cellStore.isSelected,
+          [css.StickyRowHeader]: cellStore.columnIndex === 0,
+        })}
+        onClick={() => cellStore.toggleSelection()}
+      >
+        {getComponent(props, props.cellStore.type)}
+      </td>
+    );
+  }
+);
 
-function getComponent<Row extends BaseRow>(
-  props: Props<Row>,
+function getComponent<Row extends BaseRow, ColumnId extends keyof Row>(
+  props: Props<Row, ColumnId>,
   type: ColumnType
 ): JSX.Element {
   switch (type) {

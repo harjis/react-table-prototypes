@@ -3,27 +3,30 @@ import { makeAutoObservable } from "mobx";
 import { BaseRow, ColumnType } from "../types";
 import { TableStore } from "./TableStore";
 
-type Props<Row extends BaseRow> = {
+type Props<Row extends BaseRow, ColumnId extends keyof Row> = {
   columnIndex: number;
-  columnId: keyof Row;
+  columnId: ColumnId;
   rowIndex: number;
   rowId: string;
   type: ColumnType;
-  value: unknown;
+  value: Row[ColumnId];
 };
-export class CellStore<Row extends BaseRow> {
+export class CellStore<Row extends BaseRow, ColumnId extends keyof Row> {
   columnIndex: number;
-  columnId: keyof Row;
+  columnId: ColumnId;
   rowIndex: number;
   rowId: string;
   type: ColumnType;
-  value: unknown;
+  value: Row[ColumnId];
 
   isSelected: boolean = false;
 
-  tableStore: TableStore<Row>;
+  tableStore: TableStore<Row, ColumnId>;
 
-  constructor(props: Props<Row>, tableStore: TableStore<Row>) {
+  constructor(
+    props: Props<Row, ColumnId>,
+    tableStore: TableStore<Row, ColumnId>
+  ) {
     makeAutoObservable(this);
 
     this.columnIndex = props.columnIndex;
@@ -35,7 +38,7 @@ export class CellStore<Row extends BaseRow> {
     this.tableStore = tableStore;
   }
 
-  updateValue(newValue: unknown) {
+  updateValue(newValue: Row[ColumnId]) {
     this.value = newValue;
   }
 
